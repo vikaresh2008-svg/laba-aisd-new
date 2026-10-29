@@ -1,0 +1,9 @@
+*.exe
+*.out
+*.obj
+.vs/
+.vscode/
+build/
+x64/
+*.user
+*.ipch
