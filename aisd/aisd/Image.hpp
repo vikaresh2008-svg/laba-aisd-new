@@ -5,6 +5,7 @@
 #include <random>
 #include <stdexcept>
 #include <limits>
+#include <type_traits>
 #include <cmath>
 #include <algorithm>
 
