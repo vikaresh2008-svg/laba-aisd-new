@@ -43,7 +43,7 @@ private:
 
 public:
     // Конструкторы, деструктор и управление памятью (Rule of Three)
-    explicit Image(size_t width = 0, size_t height = 0, bool randomFill = false)
+    Image(size_t width = 0, size_t height = 0, bool randomFill = false)
         : width_(width), height_(height), data_(nullptr) {
         if (width_ > 0 && height_ > 0) {
             data_ = new T[width_ * height_]();
