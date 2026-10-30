@@ -16,6 +16,7 @@ private:
     size_t height_;
     T* data_;
 
+    // Защищенная арифметика с проверкой переполнения границ типов
     T safeAdd(T a, T b) const {
         if constexpr (std::is_same_v<T, bool>) {
             return a || b;
@@ -40,6 +41,7 @@ private:
     }
 
 public:
+    // Конструкторы, деструктор и управление памятью (Rule of Three)
     explicit Image(size_t width = 0, size_t height = 0, bool randomFill = false)
         : width_(width), height_(height), data_(nullptr) {
         if (width_ > 0 && height_ > 0) {
@@ -90,6 +92,7 @@ public:
     size_t getWidth() const { return width_; }
     size_t getHeight() const { return height_; }
 
+    // Безопасный доступ к элементам матрицы по индексам
     T& operator()(size_t row, size_t col) {
         if (row >= height_ || col >= width_) throw std::out_of_range("Image index out of bounds");
         return data_[row * width_ + col];
@@ -100,6 +103,7 @@ public:
         return data_[row * width_ + col];
     }
 
+    // Операции сравнения изображений
     bool operator==(const Image& other) const {
         if (width_ != other.width_ || height_ != other.height_) return false;
         for (size_t i = 0; i < width_ * height_; ++i) {
@@ -117,6 +121,7 @@ public:
         return !(*this == other);
     }
 
+    // Арифметические перегрузки операторов для изображений и констант
     Image operator*(const Image& other) const {
         size_t resW = std::max(width_, other.width_);
         size_t resH = std::max(height_, other.height_);
@@ -174,6 +179,7 @@ public:
         return result;
     }
 
+    // Вычисление коэффициента заполнения матрицы
     double getFillFactor() const {
         if (width_ == 0 || height_ == 0) return 0.0;
         double sum = 0.0;
@@ -184,7 +190,7 @@ public:
         return sum / (static_cast<double>(width_ * height_) * maxVal);
     }
 
-    // Дружественные функции для коммутативности (внутри класса)
+    // Дружественные функции для обеспечения коммутативности и вывода в поток
     friend Image operator*(T val, const Image& img) { return img * val; }
     friend Image operator+(T val, const Image& img) { return img + val; }
 
@@ -207,6 +213,7 @@ public:
     }
 };
 
+// Внешняя утилита для растрового рисования закрашенной окружности
 template <typename T>
 void drawFilledCircle(Image<T>& img, int centerX, int centerY, int radius, T fillValue) {
     if (radius < 0) throw std::invalid_argument("Radius cannot be negative");
